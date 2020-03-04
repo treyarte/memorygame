@@ -131,7 +131,7 @@ function isWinner() {
       localStorage.setItem('lowestClicks', clicked);
     }
 
-    localClicks.innerText += `Lowest Clicks: ${localStorage.lowestClicks}`;
+    localClicks.innerText = `Lowest Clicks: ${localStorage.lowestClicks}`;
     //give a little delay so the card can finish flipping
     setTimeout(function() {
       winnerDialog.showModal();
