@@ -17,8 +17,8 @@
   <body>
     <section class="header">
       <h1 class="game-title">Memory Game</h1>
-      <p class="clicks">Clicks: 0</p>
-      <p id="lowest-clicks">Lowest Clicks: 0</p>
+      <p>Clicks: <span class="click-number">0</span></p>
+      <p>Lowest Clicks: <span class="lowest-clicks-number">0</span></p>
     </section>
     <section class="card-section">
       <!-- cards will go here -->
@@ -27,8 +27,8 @@
       <dialog class="nes-dialog is-dark is-rounded" id="winner-dialog">
         <form method="dialog">
           <h2 class="title">YOU WIN</h2>
-          <p class="my-clicks">Your Clicks:</p>
-          <p class="local-clicks">Lowest Clicks:</p>
+          <p>Your Clicks: <span class="my-clicks"></span></p>
+          <p>Lowest Clicks: <span class="local-clicks"></span></p>
           <menu class="dialog-menu">
             <button class="nes-btn is-success new-game-btn">New Game</button>
             <!-- <button class="nes-btn">Close</button>
@@ -38,7 +38,7 @@
       </dialog>
     </section>
     <section class="footer">
-      <button class="nes-btn is-success new-game-btn">New Game</button>
+      <!-- links -->
     </section>
     <script src="app.js"></script>
   </body>

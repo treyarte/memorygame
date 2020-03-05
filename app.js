@@ -1,11 +1,3 @@
-//flip a card
-//flip multiple cards
-//style cards
-//check i card is flipped
-//check if flipped card matches other flip card
-//limit the amount of flip cards at a time
-//keep track of flips
-//???
 const numOfCards = 12;
 let cardImgs = [
   'yukiko.gif',
@@ -22,17 +14,13 @@ let clicked = 0;
 
 const cardSection = document.querySelector('.card-section');
 //p elements in header
-const gameClicks = document.querySelector('.clicks');
-const lowestClicks = document.querySelector('#lowest-clicks');
+const gameClicks = document.querySelector('.click-number');
+const lowestClicks = document.querySelector('.lowest-clicks-number');
 const winnerDialog = document.querySelector('#winner-dialog');
 //p elements in dialog
 const userClicks = document.querySelector('.my-clicks');
 const localClicks = document.querySelector('.local-clicks');
-const newGameBtns = document.querySelectorAll('.new-game-btn');
-
-for (let newGameBtn of newGameBtns) {
-  newGameBtn.addEventListener('click', resetGame);
-}
+const newGameBtn = document.querySelector('.new-game-btn');
 
 start();
 
@@ -40,9 +28,10 @@ function start() {
   if (!localStorage.lowestClicks) {
     localStorage.setItem('lowestClicks', 0);
   }
-  lowestClicks.innerText = `Lowest Clicks: ${localStorage.lowestClicks}`;
+  lowestClicks.innerText = localStorage.lowestClicks;
   createGame();
   cardSection.addEventListener('click', flipCard);
+  newGameBtn.addEventListener('click', resetGame);
 }
 
 //creates the cards used for the game
@@ -84,11 +73,11 @@ function createGame() {
 
 function flipCard(event) {
   if (event.target.className === 'card-front-img card-img') {
-    clicked++;
-    gameClicks.innerText = 'Clicks: ' + clicked;
+    // clicked++;
+    gameClicks.innerText = ++clicked;
     const cardBody = event.target.parentNode.parentNode; //getting the card body so it can be flipped
     cardBody.classList.add('flip');
-    //check to make sure that the same card do not get pushed into the card tracker
+    //check to make sure that the same card do not get pushed into the card tracker and no more than 2 cards kept track at a time
     if (cardTracker.length < 2 && cardTracker[0] !== cardBody) {
       cardTracker.push(cardBody);
     }
@@ -100,7 +89,8 @@ function flipCard(event) {
 
 function cardFlipped(cards) {
   //disable all pointer events on the cardsection
-  cardSection.style.pointerEvents = 'none';
+  // cardSection.style.pointerEvents = 'none';
+  cardSection.removeEventListener('click', flipCard);
   const cardDataOne = cards[0].getAttribute('data-card');
   const cardDataTwo = cards[1].getAttribute('data-card');
   if (
@@ -111,11 +101,13 @@ function cardFlipped(cards) {
       setTimeout(function() {
         cards[0].classList.remove('flip');
         cards[1].classList.remove('flip');
-        cardSection.style.pointerEvents = 'auto'; //turning the pointer events back on.
+        // cardSection.style.pointerEvents = 'auto'; //turning the pointer events back on.
         cardTracker = [];
+        cardSection.addEventListener('click', flipCard);
       }, 1000);
     } else {
-      cardSection.style.pointerEvents = 'auto';
+      // cardSection.style.pointerEvents = 'auto';
+      cardSection.addEventListener('click', flipCard);
       cardTracker = [];
       isWinner();
     }
@@ -126,12 +118,12 @@ function isWinner() {
   score++;
   if (score === winScore) {
     let lowestClicks = parseInt(localStorage.lowestClicks);
-    userClicks.innerText = `Your Clicks: ${clicked}`;
+    userClicks.innerText = clicked;
     if (lowestClicks === 0 || lowestClicks > clicked) {
       localStorage.setItem('lowestClicks', clicked);
     }
 
-    localClicks.innerText = `Lowest Clicks: ${localStorage.lowestClicks}`;
+    localClicks.innerText = localStorage.lowestClicks;
     //give a little delay so the card can finish flipping
     setTimeout(function() {
       winnerDialog.showModal();
@@ -143,7 +135,7 @@ function resetGame() {
   cardSection.textContent = '';
   clicked = 0;
   score = 0;
-  gameClicks.innerText = 'Clicks: ' + 0;
+  gameClicks.innerText = 0;
   if (winnerDialog.hasAttribute('open')) {
     winnerDialog.removeAttribute('open');
   }
