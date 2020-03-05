@@ -80,3 +80,7 @@ body {
   text-align: center;
   margin-top: 10px;
 }
+
+#winner-dialog {
+  display: none;
+}

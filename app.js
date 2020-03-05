@@ -126,19 +126,18 @@ function isWinner() {
     localClicks.innerText = localStorage.lowestClicks;
     //give a little delay so the card can finish flipping
     setTimeout(function() {
-      winnerDialog.showModal();
+      console.dir(winnerDialog);
+      $('#winner-dialog').dialog();
     }, 100);
   }
 }
 
 function resetGame() {
+  $('#winner-dialog').dialog('close');
   cardSection.textContent = '';
   clicked = 0;
   score = 0;
   gameClicks.innerText = 0;
-  if (winnerDialog.hasAttribute('open')) {
-    winnerDialog.removeAttribute('open');
-  }
   start();
 }
 
